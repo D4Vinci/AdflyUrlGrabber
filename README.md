@@ -1,5 +1,25 @@
 # AdflyUrlGrabber
-A python script designed to grab the original url from an adfly url without opening it :D
-# Screenshot
-![alt](https://github.com/D4Vinci/AdflyUrlGrabber/blob/master/Screenshot.PNG)
-# Thanks to [ibram0x01](https://github.com/ibram0x01) :smile:
+
+A python script designed to grab the original URL.
+
+
+### Usage
+
+```
+python(3) AdflyURLGrabber.py <URL>
+```
+
+#### Example
+
+
+###### Input
+
+```
+python AdflyURLGrabber.py http://adf.ly/HmtTG
+```
+
+###### Output
+
+```
+http://google.com
+```
