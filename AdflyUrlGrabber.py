@@ -1,25 +1,37 @@
-#Author:D4Vinci
-import base64 ,urllib2
+# Contributor(s): nigella (@nig)
 
-def crack(code):
-    zeros = ''
-    ones = ''
-    for n,letter in enumerate(code):
-        if n%2 == 0:
-            zeros += code[n]
-        else:
-            ones =code[n] + ones
+from base64 import b64decode
+from urllib.request import urlopen
+from sys import argv, exit
+
+__author__ = 'D4Vinci'
+
+def decrypt(code):
+    ''' decrypt the given encrypted code '''
+
+    zeros, ones = '', ''
+
+    for num, letter in enumerate(code):
+        if num % 2 == 0: zeros += code[num]
+        else: ones = code[num] + ones
+
     key = zeros + ones
-    key = base64.b64decode(key.encode("utf-8"))
-    return key[2:]
+    key = b64decode(key.encode("utf-8"))
 
-print " - - AdflyUrlGrabber - - By D4Vinci"
-url = raw_input("\n Adfly url : ")
-if "http" not in url:
-    url = "http://"+url
-print " [+] Grabbing the url Source . . ."
-adfly_data = urllib2.urlopen(url).read()
-print " [+] Searching for url code . . ."
-ysmm = adfly_data.split("ysmm = \'")[1].split("\';")[0]
-print " [+] Cracking the encryption . . ."
-print "\n ### The Final Url Is : "+crack(ysmm)
+    return key[2:].decode('utf-8')
+
+
+if __name__ == '__main__':
+    ''' when script run directly '''
+
+    try: url = argv[1]
+    except: print('usage: python(3) AdflyURLGrabber.py <URL>'); exit()
+
+    if "http" not in url: url = "http://" + url
+
+    adfly_data = urlopen(url).read()
+    ysmm = adfly_data.split(b"ysmm = '")[1].split(b"';")[0] # Find encrypted URL code in URL source
+
+    decrypted_url = decrypt(ysmm.decode('utf-8')) # Decrypt the URL
+
+    print(decrypted_url)
